@@ -1,3 +1,16 @@
+/********************************************************************************************************/
+/* 학번: 2018038051   이름: 정종현  학과: 소프트웨어학과               											*/
+/* 내용: Menu 기반 밴드부 데이터베이스 접속 및 요청 수행 프로그램           											*/
+/*  메뉴 내용 																								*/
+/*	1. jdbc를 통한 데이터베이스 연결																			*/
+/*	2. 모든 멤버의 정보를 확인할 수 있다.																			*/
+/*	3. 멤버 정보를 입력할 수 있으며	팀 정보도 입력을 한다																*/
+/*	4. 입력받은 멤버의 정보를 삭제할 수 있다.																		*/
+/*	5. 계좌의 남은 잔액을 확인할 수 있다. 입금내역에서 출금내역을 뺀 결과값으로 확인한다										*/
+/*	6. 각 멤버가 담당하고 있는 곡을 확인한다. 학번, 팀이름, 곡제목이 출력된다											  	*/
+/*	7. 노래를 입력받는다. Song entity에 값을 입력받으며, 각 팀의 부원들도 그 곡을 연주하기 때문에 Play entity 에 정볼르 입력해준다	*/
+/********************************************************************************************************/
+
 package DatabaseTest;
 
 import java.sql.Connection;
@@ -15,33 +28,17 @@ public class termProject {
 		System.out.println("1. connection                  2. show all members' Info");
 		System.out.println("3. insert Member               4. delete Member   ");
 		System.out.println("5. account balance check       6. show each member's song");
-		System.out.println("7. insert Song                 8.   ");
+		System.out.println("7. insert Song                    ");
 		System.out.println("                              99. quit");
 		System.out.println("-----------------------------------------------------------");
 		System.out.printf("번호를 입력하세요 : ");
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Scanner sc = new Scanner(System.in);
 		Connection con = null;
 		Statement stmt = null;
-//		try{
-//			Class.forName("com.mysql.jdbc.Driver");
-//			con=DriverManager.getConnection(
-//						"jdbc:mysql://192.168.217.3:3308/madang",
-//						"jjeong","jongjh@");
-//			stmt=con.createStatement();
-////			stmt.executeUpdate("DELETE FROM Book WHERE bookid ='11'");
-//			
-////			ResultSet rs=stmt.executeQuery("SELECT * FROM Book");
-////
-////			while(rs.next())
-////				System.out.println(rs.getInt(1)+" "+rs.getString(2)+
-////							" "+rs.getString(3));
-////			con.close();
-//			}catch(Exception e){ System.out.println(e);}
 		
 		int num = 0;
 		boolean key = true;
@@ -133,10 +130,22 @@ public class termProject {
 				} catch (Exception e) {
 					System.out.println(e);
 				}
+				
 				break;
 
 			case 6:
-
+				
+				System.out.printf("id를 입력하세요: ");
+				id = sc.nextInt();
+				sc.nextLine();
+				
+				try {
+					ResultSet rs=stmt.executeQuery("select Play.mid, Song.tname, Song.title from Play, Song where Play.title = Song.title AND Play.mid ="+id);
+					while(rs.next())
+						System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 				break;
 				
 			case 7:
